@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedido de Bidones de Agua</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --blue: #1e88e5;
+      --blue-dark: #1565c0;
+      --bg: #f4f9ff;
+      --card: #ffffff;
+      --text: #17324d;
+      --muted: #4f6b8a;
+      --ok: #1b8d5d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #e8f3ff, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .pedido {
+      width: min(100%, 500px);
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(21, 101, 192, 0.12);
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.7rem;
+      color: var(--blue-dark);
+      text-align: center;
+    }
+
+    p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100%;
+      font: inherit;
+      border-radius: 8px;
+    }
+
+    input,
+    textarea {
+      border: 1px solid #bed6ef;
+      padding: 10px 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.18);
+    }
+
+    textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    .row {
+      display: grid;
+      gap: 14px;
+    }
+
+    @media (min-width: 650px) {
+      .row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    button {
+      border: none;
+      padding: 12px;
+      background: var(--blue);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: var(--blue-dark);
+    }
+
+    .mensaje {
+      display: none;
+      margin-top: 16px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #e8f8f0;
+      color: var(--ok);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .mensaje.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <main class="pedido">
+    <h1>Pedido de Bidones de Agua</h1>
+    <p>Completa tus datos para realizar tu solicitud de compra.</p>
+
+    <form id="pedidoForm">
+      <div>
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" name="nombre" type="text" required placeholder="Ej: Juan Pérez" />
+      </div>
+
+      <div>
+        <label for="direccion">Dirección</label>
+        <textarea id="direccion" name="direccion" required placeholder="Calle, número, barrio"></textarea>
+      </div>
+
+      <div>
+        <label for="telefono">Número telefónico</label>
+        <input id="telefono" name="telefono" type="tel" required placeholder="Ej: +54 11 1234 5678" pattern="[0-9+\-\s]{8,}" />
+      </div>
+
+      <button type="submit">Enviar pedido</button>
+    </form>
+
+    <div class="mensaje" id="confirmacion" role="status" aria-live="polite"></div>
+  </main>
+
+  <script>
+    const pedidoForm = document.getElementById('pedidoForm');
+    const confirmacion = document.getElementById('confirmacion');
+
+    pedidoForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(pedidoForm);
+      const nombre = formData.get('nombre').toString().trim();
+
+      confirmacion.textContent = `Gracias, ${nombre}. Tu pedido de bidones de agua fue recibido.`;
+      confirmacion.classList.add('visible');
+      pedidoForm.reset();
+    });
+  </script>
+</body>
+</html>
